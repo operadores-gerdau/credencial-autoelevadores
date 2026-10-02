@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Consulta de Credencial</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f1f3f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 25px;
+    }
+
+    p {
+      color: #555;
+      line-height: 1.5;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 9px;
+      background: #222;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #mensaje {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="contenedor">
+
+    <h1>Consultar credencial</h1>
+
+    <p>
+      Ingresá tu DNI para consultar tu habilitación
+      como operador de autoelevador.
+    </p>
+
+    <input
+      type="text"
+      id="dni"
+      inputmode="numeric"
+      placeholder="Ingresá tu DNI"
+    >
+
+    <button onclick="consultar()">
+      CONSULTAR CREDENCIAL
+    </button>
+
+    <div id="mensaje"></div>
+
+  </div>
+
+
+  <script>
+
+    function consultar() {
+
+      const dni =
+        document.getElementById("dni").value.trim();
+
+      const mensaje =
+        document.getElementById("mensaje");
+
+
+      if (!dni) {
+
+        mensaje.innerText =
+          "Ingresá tu DNI.";
+
+        return;
+      }
+
+
+      mensaje.innerText =
+        "Consultando...";
+
+
+      const script =
+        document.createElement("script");
+
+
+      const callback =
+        "respuestaCredencial";
+
+
+      window[callback] =
+        function(resultado) {
+
+          if (resultado.encontrado) {
+
+            window.location.href =
+              resultado.url;
+
+          } else {
+
+            mensaje.innerText =
+              resultado.mensaje;
+          }
+
+
+          document.body.removeChild(script);
+
+          delete window[callback];
+        };
+
+
+      const url =
+        "https://script.google.com/macros/s/AKfycbwyGljJKt7tdfzefpU9K0EUaob0BUjYXLTh_TD-fhjA9_BJvZ2i_-JNDmjJlDgPNHOosw/exec" +
+        "?api=buscar" +
+        "&dni=" +
+        encodeURIComponent(dni) +
+        "&callback=" +
+        callback;
+
+
+      script.src = url;
+
+      document.body.appendChild(script);
+    }
+
+  </script>
+
+</body>
+</html>
