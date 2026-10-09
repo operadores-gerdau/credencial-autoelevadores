@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
+  <base target="_top">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Consulta de Credencial</title>
+  <title>Verificación de habilitación</title>
 
   <style>
 
@@ -15,151 +19,490 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #f1f3f4;
+      background: #f1f4f7;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #202830;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       padding: 20px;
     }
 
-    .contenedor {
+    /* =====================================================
+       CONTENEDOR PRINCIPAL
+       ===================================================== */
+
+    .pagina {
       width: 100%;
-      max-width: 420px;
-      background: white;
-      padding: 30px 25px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      max-width: 430px;
+    }
+
+    /* =====================================================
+       TARJETA
+       ===================================================== */
+
+    .tarjeta {
+      background: #ffffff;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10);
+    }
+
+    /* =====================================================
+       ENCABEZADO
+       ===================================================== */
+
+    .encabezado {
+      background: #0057a8;
+      color: #ffffff;
       text-align: center;
+      padding: 30px 24px 26px;
     }
 
-    h1 {
-      margin: 0 0 10px 0;
-      font-size: 25px;
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
     }
 
-    p {
-      color: #555;
+    .linea {
+      width: 48px;
+      height: 4px;
+      background: #ffffff;
+      border-radius: 10px;
+      margin: 0 auto 18px;
+      opacity: 0.9;
+    }
+
+    .titulo {
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0;
+    }
+
+    .subtitulo {
+      font-size: 12px;
       line-height: 1.5;
+      margin-top: 9px;
+      opacity: 0.9;
     }
 
-    input {
-      width: 100%;
-      padding: 15px;
-      margin-top: 15px;
-      border: 1px solid #ccc;
-      border-radius: 9px;
-      font-size: 18px;
+    /* =====================================================
+       CONTENIDO
+       ===================================================== */
+
+    .contenido {
+      padding: 30px 26px 28px;
       text-align: center;
     }
 
-    button {
+    /* =====================================================
+       PICTOGRAMA
+       ===================================================== */
+
+    .pictograma {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      background: #eef5fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pictograma img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    /* =====================================================
+       TEXTO
+       ===================================================== */
+
+    .instruccion {
+      font-size: 14px;
+      color: #596570;
+      line-height: 1.5;
+      margin: 0 auto 24px;
+      max-width: 330px;
+    }
+
+    .instruccion strong {
+      color: #202830;
+    }
+
+    /* =====================================================
+       CAMPO DNI
+       ===================================================== */
+
+    .campo {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .campo label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #4d5963;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dni-input {
       width: 100%;
-      padding: 15px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 9px;
-      background: #222;
-      color: white;
+      height: 54px;
+      border: 2px solid #dce2e7;
+      border-radius: 12px;
+      padding: 0 16px;
       font-size: 17px;
-      font-weight: bold;
+      font-weight: 600;
+      color: #202830;
+      outline: none;
+      text-align: center;
+      transition: all 0.2s ease;
+      background: #fafbfc;
+    }
+
+    .dni-input:focus {
+      border-color: #0057a8;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(0, 87, 168, 0.08);
+    }
+
+    .dni-input::placeholder {
+      color: #a3abb2;
+      font-weight: 400;
+    }
+
+    /* =====================================================
+       BOTÓN
+       ===================================================== */
+
+    .boton {
+      width: 100%;
+      height: 54px;
+      border: none;
+      border-radius: 12px;
+      background: #0057a8;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    button:active {
-      transform: scale(0.98);
+    .boton:hover {
+      background: #004785;
+      transform: translateY(-1px);
     }
 
-    #mensaje {
-      margin-top: 20px;
-      font-weight: bold;
+    .boton:active {
+      transform: translateY(0);
+    }
+
+    .boton:disabled {
+      opacity: 0.7;
+      cursor: wait;
+      transform: none;
+    }
+
+    /* =====================================================
+       MENSAJE
+       ===================================================== */
+
+    .mensaje {
+      display: none;
+      margin-top: 18px;
+      padding: 13px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .mensaje.error {
+      display: block;
+      background: #fff0f0;
+      border: 1px solid #f0c2c2;
+      color: #a52222;
+    }
+
+    .mensaje.info {
+      display: block;
+      background: #eef5fb;
+      border: 1px solid #c8dceb;
+      color: #0057a8;
+    }
+
+    /* =====================================================
+       PIE
+       ===================================================== */
+
+    .pie {
+      border-top: 1px solid #edf0f2;
+      padding: 18px 20px;
+      text-align: center;
+      font-size: 10px;
+      line-height: 1.5;
+      color: #8a939b;
+    }
+
+    .pie strong {
+      color: #68737d;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+    @media (max-width: 480px) {
+
+      body {
+        padding: 12px;
+      }
+
+      .encabezado {
+        padding: 27px 20px 24px;
+      }
+
+      .logo {
+        font-size: 27px;
+      }
+
+      .titulo {
+        font-size: 19px;
+      }
+
+      .contenido {
+        padding: 27px 20px 24px;
+      }
+
+      .pictograma {
+        width: 76px;
+        height: 76px;
+      }
+
+      .pictograma img {
+        width: 53px;
+        height: 53px;
+      }
+
     }
 
   </style>
+
 </head>
+
 
 <body>
 
-  <div class="contenedor">
 
-    <h1>Consultar credencial</h1>
+  <div class="pagina">
 
-    <p>
-      Ingresá tu DNI para consultar tu habilitación
-      como operador de autoelevador.
-    </p>
+    <div class="tarjeta">
 
-    <input
-      type="text"
-      id="dni"
-      inputmode="numeric"
-      placeholder="Ingresá tu DNI"
-    >
 
-    <button onclick="consultar()">
-      CONSULTAR CREDENCIAL
-    </button>
+      <!-- =================================================
+           ENCABEZADO
+           ================================================= -->
 
-    <div id="mensaje"></div>
+      <div class="encabezado">
+
+        <div class="logo">
+          GERDAU
+        </div>
+
+        <div class="linea"></div>
+
+        <h1 class="titulo">
+          Verificación de habilitación
+        </h1>
+
+        <div class="subtitulo">
+          Consulta de operadores habilitados para el manejo
+          seguro de autoelevadores
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           CONTENIDO
+           ================================================= -->
+
+      <div class="contenido">
+
+
+        <!-- PICTOGRAMA -->
+
+        <div class="pictograma">
+
+          <img
+            src="https://cdn.phototourl.com/member/2026-10-05-714259cc-bcf7-479a-b1b0-1132e0f2b651.png"
+            alt="Autoelevador"
+          >
+
+        </div>
+
+
+        <!-- INSTRUCCIÓN -->
+
+        <p class="instruccion">
+
+          Ingresá el <strong>DNI del operador</strong> para
+          verificar el estado de su habilitación.
+
+        </p>
+
+
+        <!-- CAMPO -->
+
+        <div class="campo">
+
+          <label for="dni">
+            DNI del operador
+          </label>
+
+          <input
+            type="text"
+            id="dni"
+            class="dni-input"
+            placeholder="Ej. 44867048"
+            inputmode="numeric"
+            autocomplete="off"
+            maxlength="12"
+          >
+
+        </div>
+
+
+        <!-- BOTÓN -->
+
+        <button
+          id="boton"
+          class="boton"
+          onclick="buscar()"
+        >
+          VERIFICAR HABILITACIÓN
+        </button>
+
+
+        <!-- MENSAJE -->
+
+        <div
+          id="mensaje"
+          class="mensaje"
+        ></div>
+
+
+      </div>
+
+
+      <!-- =================================================
+           PIE
+           ================================================= -->
+
+      <div class="pie">
+
+        Sistema digital de
+        <strong>verificación de habilitación</strong><br>
+
+        Manejo Seguro de Autoelevadores
+
+      </div>
+
+
+    </div>
 
   </div>
 
 
   <script>
 
-    function consultar() {
+    // =====================================================
+    // URL DEL WEB APP
+    // =====================================================
+
+    const URL_API =
+      "https://script.google.com/macros/s/AKfycbwyGljJKt7tdfzefpU9K0EUaob0BUjYXLTh_TD-fhjA9_BJvZ2i_-JNDmjJlDgPNHOosw/exec";
+
+
+    // =====================================================
+    // BUSCAR CREDENCIAL
+    // =====================================================
+
+    function buscar() {
 
       const dni =
-        document.getElementById("dni").value.trim();
+        document
+          .getElementById("dni")
+          .value
+          .trim();
+
+
+      const boton =
+        document
+          .getElementById("boton");
+
 
       const mensaje =
-        document.getElementById("mensaje");
+        document
+          .getElementById("mensaje");
 
+
+      // ---------------------------------------------------
+      // Validación
+      // ---------------------------------------------------
 
       if (!dni) {
 
-        mensaje.innerText =
-          "Ingresá tu DNI.";
+        mostrarMensaje(
+          "Ingresá el DNI del operador.",
+          "error"
+        );
 
         return;
       }
 
 
-      mensaje.innerText =
-        "Consultando...";
+      // ---------------------------------------------------
+      // Estado de carga
+      // ---------------------------------------------------
+
+      boton.disabled = true;
+
+      boton.textContent = "VERIFICANDO...";
+
+      mensaje.className = "mensaje info";
+
+      mensaje.textContent =
+        "Consultando habilitación...";
+
+
+      mensaje.style.display = "block";
+
+
+      // ---------------------------------------------------
+      // JSONP
+      // ---------------------------------------------------
+
+      const callback =
+        "resultadoCredencial";
 
 
       const script =
         document.createElement("script");
 
 
-      const callback =
-        "respuestaCredencial";
-
-
-      window[callback] =
-        function(resultado) {
-
-          if (resultado.encontrado) {
-
-            window.location.href =
-              resultado.url;
-
-          } else {
-
-            mensaje.innerText =
-              resultado.mensaje;
-          }
-
-
-          document.body.removeChild(script);
-
-          delete window[callback];
-        };
-
-
-      const url =
-        "https://script.google.com/macros/s/AKfycbwyGljJKt7tdfzefpU9K0EUaob0BUjYXLTh_TD-fhjA9_BJvZ2i_-JNDmjJlDgPNHOosw/exec" +
+      script.src =
+        URL_API +
         "?api=buscar" +
         "&dni=" +
         encodeURIComponent(dni) +
@@ -167,11 +510,111 @@
         callback;
 
 
-      script.src = url;
+      window[callback] =
+        function(respuesta) {
+
+          boton.disabled = false;
+
+          boton.textContent =
+            "VERIFICAR HABILITACIÓN";
+
+
+          if (
+            respuesta &&
+            respuesta.encontrado &&
+            respuesta.url
+          ) {
+
+            window.location.href =
+              respuesta.url;
+
+            return;
+          }
+
+
+          mostrarMensaje(
+            respuesta &&
+            respuesta.mensaje
+              ? respuesta.mensaje
+              : "No se encontró una habilitación para ese DNI.",
+            "error"
+          );
+
+        };
+
+
+      script.onerror =
+        function() {
+
+          boton.disabled = false;
+
+          boton.textContent =
+            "VERIFICAR HABILITACIÓN";
+
+
+          mostrarMensaje(
+            "No se pudo realizar la consulta. Intentá nuevamente.",
+            "error"
+          );
+
+        };
+
 
       document.body.appendChild(script);
+
     }
 
+
+    // =====================================================
+    // MOSTRAR MENSAJE
+    // =====================================================
+
+    function mostrarMensaje(texto, tipo) {
+
+      const mensaje =
+        document
+          .getElementById("mensaje");
+
+
+      mensaje.className =
+        "mensaje " + tipo;
+
+
+      mensaje.textContent =
+        texto;
+
+
+      mensaje.style.display =
+        "block";
+
+    }
+
+
+    // =====================================================
+    // ENTER PARA BUSCAR
+    // =====================================================
+
+    document
+      .getElementById("dni")
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (event.key === "Enter") {
+
+            buscar();
+
+          }
+
+        }
+      );
+
+  </script>
+
+
+</body>
+
+</html>
   </script>
 
 </body>
